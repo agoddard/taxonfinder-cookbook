@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-directory "#{node[:taxonfinder][:dir]}" do
+directory node[:taxonfinder][:directory] do
   owner "root"
   group "root"
   mode "0755"
@@ -25,7 +25,7 @@ directory "#{node[:taxonfinder][:dir]}" do
   action :create
 end
 
-remote_file "#{node[:taxonfinder][:dir]}/taxon-finder.tar.gz" do
+remote_file "#{node[:taxonfinder][:directory]}/taxon-finder.tar.gz" do
   source "#{node[:taxonfinder][:src]}"
   mode "0644"
   checksum node[:taxonfinder][:checksum]
@@ -33,14 +33,27 @@ remote_file "#{node[:taxonfinder][:dir]}/taxon-finder.tar.gz" do
 end
 
 execute "untar-taxonfinder" do
-  cwd node[:taxonfinder][:dir]
-  command "tar --strip-components=1 -xzf #{node[:taxonfinder][:dir]}/taxon-finder.tar.gz"
+  cwd node[:taxonfinder][:directory]
+  command "tar --strip-components=1 -xzf #{node[:taxonfinder][:directory]}/taxon-finder.tar.gz"
 end
 
-template "#{node[:taxonfinder][:dir]}/config.pl" do
+template "#{node[:taxonfinder][:directory]}/config.pl" do
   source "config.pl.erb"
 end
 
-file "#{node[:taxonfinder][:dir]}/taxon-finder.tar.gz" do
+file "#{node[:taxonfinder][:directory]}/taxon-finder.tar.gz" do
   action :delete
+end
+
+
+template "/etc/init/taxonfinder.conf" do
+  source 'upstart.conf.erb'
+  notifies :restart, "service[taxonfinder]"
+end
+
+
+service "taxonfinder" do
+  provider Chef::Provider::Service::Upstart
+  supports :status => true, :restart => true
+  action [ :enable, :start ]
 end

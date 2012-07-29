@@ -1,0 +1,11 @@
+description "start and stop TaxonFinder"
+version "1.0"
+author "Anthony Goddard"
+
+expect fork
+
+script
+chdir <%= node[:taxonfinder][:directory]%>
+exec /usr/bin/env perl server.pl &
+emit taxonfinder_starting
+end script
