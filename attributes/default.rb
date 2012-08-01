@@ -4,4 +4,4 @@ default[:taxonfinder][:directory] = "/opt/taxonfinder"
 default[:taxonfinder][:host] = "0.0.0.0"
 default[:taxonfinder][:port] = 1234
 default[:taxonfinder][:reload_key] = "ykF7RYlQFHKxetrZCUgVB0WtgzIU"
-default[:taxonfinder][:pool_member'] = false
+default[:taxonfinder][:pool_member] = false
