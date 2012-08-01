@@ -3,9 +3,9 @@ maintainer_email "agoddard@mbl.edu"
 license          "Apache 2.0"
 description      "Installs/Configures taxonfinder"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version          "0.0.1"
+version          "0.0.2"
 
-%w{ perl }.each do |cb|
+%w{ perl haproxy }.each do |cb|
   depends cb
 end
 
