@@ -1,3 +1,4 @@
+name		 "Taxonfinder"
 maintainer       "Anthony Goddard"
 maintainer_email "agoddard@mbl.edu"
 license          "Apache 2.0"
